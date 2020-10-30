@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <Logo />
-      <h1 class="title">user-manager-nuxtjs</h1>
+      <h1 class="title">Todo app</h1>
       <div class="links">
         <a
           href="https://nuxtjs.org/"
@@ -13,7 +13,7 @@
           Documentation
         </a>
         <a
-          href="https://github.com/nuxt/nuxt.js"
+          href="https://github.com/dungtv09/todo-app-nuxt"
           target="_blank"
           rel="noopener noreferrer"
           class="button--grey"
@@ -29,7 +29,7 @@
 export default {}
 </script>
 
-<style>
+<style scope>
 .container {
   margin: 0 auto;
   min-height: 100vh;
