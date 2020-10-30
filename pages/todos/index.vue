@@ -34,10 +34,7 @@
             <td>{{ todo.content }}</td>
             <td>{{ updatedAt(todo) }}</td>
             <td>
-              <button
-                class="btn btn-success mb-1"
-                @click="updateStatus(todo.status)"
-              >
+              <button class="btn btn-success mb-1" @click="updateStatus(todo)">
                 Complete
               </button>
               <button class="btn btn-primary mb-1">Edit</button>
@@ -67,10 +64,7 @@
               {{ updatedAt(todo) }}
             </td>
             <td>
-              <button
-                class="btn btn-success mb-1"
-                @click="updateStatus(todo.status)"
-              >
+              <button class="btn btn-success mb-1" @click="updateStatus(todo)">
                 Incomplete
               </button>
               <button class="btn btn-primary mb-1">Edit</button>
@@ -81,9 +75,6 @@
           </tr>
         </tbody>
       </table>
-      <hr />
-      <p>{{ activeTodos }}</p>
-      <p>{{ completedTodos }}</p>
     </div>
   </div>
 </template>
@@ -96,15 +87,11 @@ export default {
 
   computed: {
     activeTodos() {
-      return this.$store.getters.todos.filter(
-        (todo) => todo.status === 'active'
-      )
+      return this.$store.getters.activeTodos
     },
 
     completedTodos() {
-      return this.$store.getters.todos.filter(
-        (todo) => todo.status === 'completed'
-      )
+      return this.$store.getters.completedTodos
     },
   },
 
@@ -115,11 +102,16 @@ export default {
     },
 
     addTodo() {
-      this.$store.dispatch('addTodo', { content: this.newTodoContent })
+      this.$store.dispatch('addTodo', this.newTodoContent)
+      this.newTodoContent = ''
     },
 
     removeTodo(id) {
       this.$store.dispatch('removeTodo', id)
+    },
+
+    updateStatus(todo) {
+      this.$store.dispatch('updateStatus', todo)
     },
   },
 }

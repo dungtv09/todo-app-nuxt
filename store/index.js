@@ -12,6 +12,12 @@ const store = () => {
       todos(state) {
         return state.todos
       },
+      activeTodos(state) {
+        return state.todos.filter((todo) => todo.status === 'active')
+      },
+      completedTodos(state) {
+        return state.todos.filter((todo) => todo.status === 'completed')
+      },
       headers(state) {
         return {
           headers: {
@@ -32,6 +38,11 @@ const store = () => {
         const index = state.todos.findIndex((todo) => todo.id === id)
         state.todos.splice(index, 1)
       },
+      UPDATE_STATUS(state, todo) {
+        const todoTemp = state.todos.find((item) => item.id === todo.id).status
+        state.todos.find((item) => item.id === todo.id).status =
+          todoTemp === 'active' ? 'completed' : 'active'
+      },
     },
 
     actions: {
@@ -43,10 +54,10 @@ const store = () => {
         commit('SET_TODOS', data)
       },
 
-      async addTodo({ commit, state, getters }, newTodo) {
+      async addTodo({ commit, state, getters }, newTodoContent) {
         const data = await this.$axios.$post(
           process.env.baseApiUrl + '/todos',
-          newTodo,
+          { content: newTodoContent },
           getters.headers
         )
         commit('ADD_TODO', data)
@@ -58,6 +69,27 @@ const store = () => {
           getters.headers
         )
         commit('REMOVE_TODO', id)
+      },
+
+      async updateStatus({ commit, getters }, todo) {
+        if (todo.status === 'active') {
+          await this.$axios.$put(
+            process.env.baseApiUrl + '/todos/' + todo.id,
+            {
+              status: 'completed',
+            },
+            getters.headers
+          )
+        } else {
+          await this.$axios.$put(
+            process.env.baseApiUrl + '/todos/' + todo.id,
+            {
+              status: 'active',
+            },
+            getters.headers
+          )
+        }
+        commit('UPDATE_STATUS', todo)
       },
     },
   })
