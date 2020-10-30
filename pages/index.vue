@@ -29,7 +29,7 @@
 export default {}
 </script>
 
-<style scope>
+<style scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;

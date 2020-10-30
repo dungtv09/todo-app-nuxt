@@ -5,7 +5,7 @@
         src="@/assets/images/logo.png"
         width="30"
         height="30"
-        class="d-inline-block align-top"
+        class="d-inline-block align-top mr-1"
         alt="Logo"
       />
       Todo app</router-link

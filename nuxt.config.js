@@ -60,4 +60,9 @@ export default {
   router: {
     linkExactActiveClass: 'active',
   },
+
+  env: {
+    baseApiUrl:
+      process.env.BASE_API_URL || 'https://ltt-todo-api.herokuapp.com/',
+  },
 }
