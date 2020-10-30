@@ -43,6 +43,10 @@ const store = () => {
         state.todos.find((item) => item.id === todo.id).status =
           todoTemp === 'active' ? 'completed' : 'active'
       },
+      EDIT_TODO(state, payload) {
+        state.todos.find((item) => item.id === payload.todo.id).content =
+          payload.newContent
+      },
     },
 
     actions: {
@@ -63,12 +67,12 @@ const store = () => {
         commit('ADD_TODO', data)
       },
 
-      async removeTodo({ commit, state, getters }, id) {
+      async removeTodo({ commit, state, getters }, todo) {
         await this.$axios.$delete(
-          process.env.baseApiUrl + '/todos/' + id,
+          process.env.baseApiUrl + '/todos/' + todo.id,
           getters.headers
         )
-        commit('REMOVE_TODO', id)
+        commit('REMOVE_TODO', todo.id)
       },
 
       async updateStatus({ commit, getters }, todo) {
@@ -90,6 +94,17 @@ const store = () => {
           )
         }
         commit('UPDATE_STATUS', todo)
+      },
+
+      editTodo({ commit, getters }, payload) {
+        // await this.$axios.$put(
+        //   process.env.baseApiUrl + '/todos/' + payload.todo.id,
+        //   {
+        //     content: payload.newContent,
+        //   },
+        //   getters.headers
+        // )
+        commit('EDIT_TODO', payload)
       },
     },
   })

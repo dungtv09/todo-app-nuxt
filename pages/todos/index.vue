@@ -37,8 +37,10 @@
               <button class="btn btn-success mb-1" @click="updateStatus(todo)">
                 Complete
               </button>
-              <button class="btn btn-primary mb-1">Edit</button>
-              <button class="btn btn-warning mb-1" @click="removeTodo(todo.id)">
+              <button class="btn btn-primary mb-1" @click="editTodo(todo)">
+                Edit
+              </button>
+              <button class="btn btn-warning mb-1" @click="removeTodo(todo)">
                 Remove
               </button>
             </td>
@@ -67,8 +69,10 @@
               <button class="btn btn-success mb-1" @click="updateStatus(todo)">
                 Incomplete
               </button>
-              <button class="btn btn-primary mb-1">Edit</button>
-              <button class="btn btn-warning mb-1" @click="removeTodo(todo.id)">
+              <button class="btn btn-primary mb-1" @click="editTodo(todo)">
+                Edit
+              </button>
+              <button class="btn btn-warning mb-1" @click="removeTodo(todo)">
                 Remove
               </button>
             </td>
@@ -106,12 +110,17 @@ export default {
       this.newTodoContent = ''
     },
 
-    removeTodo(id) {
-      this.$store.dispatch('removeTodo', id)
+    removeTodo(todo) {
+      this.$store.dispatch('removeTodo', todo)
     },
 
     updateStatus(todo) {
       this.$store.dispatch('updateStatus', todo)
+    },
+
+    editTodo(todo) {
+      const newContent = prompt('Edit todo', todo.content)
+      this.$store.dispatch('editTodo', { todo, newContent })
     },
   },
 }
