@@ -2,7 +2,7 @@
   <div class="todo-list-page">
     <div class="container">
       <h1>Todo list</h1>
-      <form class="form-inline mt-5" @submit.prevent="addTodo">
+      <form class="form-inline mt-5">
         <div class="form-group">
           <label for="new-todo">New todo:</label>
         </div>
@@ -17,7 +17,7 @@
           />
         </div>
         <div class="form-group ml-2">
-          <button type="submit" class="btn btn-add-todo">Add</button>
+          <button class="btn btn-add-todo" @click.prevent="addTodo">Add</button>
         </div>
       </form>
       <h5 class="mt-5">Incomplete Todos</h5>
@@ -34,7 +34,12 @@
             <td>{{ todo.content }}</td>
             <td>{{ updatedAt(todo) }}</td>
             <td>
-              <button class="btn btn-success mb-1">Complete</button>
+              <button
+                class="btn btn-success mb-1"
+                @click="updateStatus(todo.status)"
+              >
+                Complete
+              </button>
               <button class="btn btn-primary mb-1">Edit</button>
               <button class="btn btn-warning mb-1" @click="removeTodo(todo.id)">
                 Remove
@@ -62,7 +67,12 @@
               {{ updatedAt(todo) }}
             </td>
             <td>
-              <button class="btn btn-success mb-1">Incomplete</button>
+              <button
+                class="btn btn-success mb-1"
+                @click="updateStatus(todo.status)"
+              >
+                Incomplete
+              </button>
               <button class="btn btn-primary mb-1">Edit</button>
               <button class="btn btn-warning mb-1" @click="removeTodo(todo.id)">
                 Remove
@@ -81,7 +91,7 @@
 <script>
 export default {
   data() {
-    return { newTodoContent: null }
+    return { newTodoContent: '' }
   },
 
   computed: {
