@@ -18,6 +18,12 @@ const store = () => {
           },
         }
       },
+      activeTodos(state) {
+        return state.todos.filter((todo) => todo.status === 'active')
+      },
+      completedTodos(state) {
+        return state.todos.filter((todo) => todo.status === 'completed')
+      },
       isLogin(state) {
         return state.token !== null
       },
@@ -52,6 +58,9 @@ const store = () => {
     },
 
     actions: {
+      setTodos({ commit }, data) {
+        commit('SET_TODOS', data)
+      },
       async addTodo({ commit, state, getters }, newTodoContent) {
         const data = await this.$axios.$post(
           process.env.baseApiUrl + '/todos',

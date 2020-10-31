@@ -10,7 +10,7 @@
           rel="noopener noreferrer"
           class="button--green"
         >
-          Documentation
+          Nuxtjs
         </a>
         <a
           href="https://github.com/dungtv09/todo-app-nuxt"

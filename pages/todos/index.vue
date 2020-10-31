@@ -91,7 +91,7 @@ export default {
       process.env.baseApiUrl + '/todos',
       context.store.getters.headers
     )
-    context.store.commit('SET_TODOS', data)
+    context.store.dispatch('setTodos', data)
     return { todos: data }
   },
 
@@ -101,10 +101,10 @@ export default {
 
   computed: {
     activeTodos() {
-      return this.todos.filter((todo) => todo.status === 'active')
+      return this.$store.getters.activeTodos
     },
     completedTodos() {
-      return this.todos.filter((todo) => todo.status === 'completed')
+      return this.$store.getters.completedTodos
     },
   },
 
