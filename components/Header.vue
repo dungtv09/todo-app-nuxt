@@ -31,15 +31,40 @@
           <router-link class="nav-link" to="/todos">Todo list</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/login">Login</router-link>
+          <router-link v-if="!isLogin" class="nav-link" to="/login"
+            >Login</router-link
+          >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/register">Register</router-link>
+          <router-link v-if="!isLogin" class="nav-link" to="/register"
+            >Register</router-link
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer">Logout</a>
+          <a
+            v-if="isLogin"
+            class="nav-link"
+            style="cursor: pointer"
+            @click="logout"
+            >Logout</a
+          >
         </li>
       </ul>
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin
+    },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+    },
+  },
+}
+</script>

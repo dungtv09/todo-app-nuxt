@@ -86,7 +86,7 @@
 <script>
 export default {
   data() {
-    return { newTodoContent: '' }
+    return { newTodoContent: null }
   },
 
   computed: {

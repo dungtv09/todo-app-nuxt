@@ -4,8 +4,7 @@ const store = () => {
   return new Vuex.Store({
     state: {
       todos: [],
-      token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ing3OVNEdmE4UHZvVFpKY1RvQ2hWIiwiaWF0IjoxNjA0MDc5NzIwLCJleHAiOjE2MDQ2ODQ1MjB9.M3efkNemter4dQnWwsY7ThDdWBRfRCOcNW6hLRGyxIs',
+      token: null,
     },
 
     getters: {
@@ -24,6 +23,12 @@ const store = () => {
             Authorization: `Bearer ${state.token}`,
           },
         }
+      },
+      isLogin(state) {
+        if (state.token) {
+          return true
+        }
+        return false
       },
     },
 
@@ -47,15 +52,23 @@ const store = () => {
         state.todos.find((item) => item.id === payload.todo.id).content =
           payload.newContent
       },
+      SET_TOKEN(state, token) {
+        state.token = token
+      },
+      CLEAR_TOKEN(state) {
+        state.token = null
+      },
     },
 
     actions: {
       async nuxtServerInit({ commit, state, getters }, context) {
-        const data = await context.$axios.$get(
-          process.env.baseApiUrl + '/todos',
-          getters.headers
-        )
-        commit('SET_TODOS', data)
+        try {
+          const data = await context.$axios.$get(
+            process.env.baseApiUrl + '/todos',
+            getters.headers
+          )
+          commit('SET_TODOS', data)
+        } catch (err) {}
       },
 
       async addTodo({ commit, state, getters }, newTodoContent) {
@@ -105,6 +118,38 @@ const store = () => {
         //   getters.headers
         // )
         commit('EDIT_TODO', payload)
+      },
+
+      async register({ getters }, user) {
+        try {
+          await this.$axios.$post(
+            process.env.baseApiUrl + '/auth/register',
+            user,
+            getters.headers
+          )
+          this.$router.push('/login')
+        } catch (err) {
+          alert(err.response.data.message)
+        }
+      },
+
+      async login({ commit, getters }, user) {
+        try {
+          const data = await this.$axios.$post(
+            process.env.baseApiUrl + '/auth/login',
+            user,
+            getters.headers
+          )
+          commit('SET_TOKEN', data.token)
+          this.$router.push('/todos')
+        } catch (err) {
+          alert(err.response.data.message)
+        }
+      },
+
+      logout({ commit }) {
+        commit('CLEAR_TOKEN')
+        this.$router.push('/')
       },
     },
   })
