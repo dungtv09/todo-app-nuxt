@@ -32,9 +32,11 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        <span v-if="isLogin" class="navbar-text"
-          ><i class="fas fa-user-circle"></i> {{ currentUser }}</span
-        >
+        <li class="nav-item">
+          <a v-if="isLogin" class="nav-link" style="cursor: pointer"
+            ><i class="fas fa-user-circle"></i> {{ currentUser }}</a
+          >
+        </li>
         <li class="nav-item">
           <router-link v-if="!isLogin" class="nav-link" to="/login"
             >Login</router-link
