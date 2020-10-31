@@ -4,22 +4,17 @@
       <Logo />
       <h1 class="title">Todo app</h1>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
+        <span
+          >by
+          <a
+            href="https://github.com/dungtv09/todo-app-nuxt"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button--grey"
+          >
+            dungtv
+          </a></span
         >
-          Nuxtjs
-        </a>
-        <a
-          href="https://github.com/dungtv09/todo-app-nuxt"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
       </div>
     </div>
   </div>
