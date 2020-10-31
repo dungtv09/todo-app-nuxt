@@ -61,7 +61,8 @@ const store = () => {
       setTodos({ commit }, data) {
         commit('SET_TODOS', data)
       },
-      async addTodo({ commit, state, getters }, newTodoContent) {
+
+      async addTodo({ commit, getters }, newTodoContent) {
         const data = await this.$axios.$post(
           process.env.baseApiUrl + '/todos',
           { content: newTodoContent },
@@ -70,7 +71,7 @@ const store = () => {
         commit('ADD_TODO', data)
       },
 
-      async removeTodo({ commit, state, getters }, todo) {
+      async removeTodo({ commit, getters }, todo) {
         await this.$axios.$delete(
           process.env.baseApiUrl + '/todos/' + todo.id,
           getters.headers
