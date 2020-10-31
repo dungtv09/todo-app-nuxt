@@ -50,6 +50,9 @@
           >
         </li>
       </ul>
+      <span v-if="isLogin" class="navbar-text"
+        ><i class="fas fa-user-circle"></i> {{ currentUser }}</span
+      >
     </div>
   </nav>
 </template>
@@ -60,9 +63,16 @@ export default {
     isLogin() {
       return this.$store.getters.isLogin
     },
+    currentUser() {
+      return this.$store.getters.currentUser
+    },
   },
   methods: {
     logout() {
+      const c = confirm('Are you sure?')
+      if (c !== true) {
+        return
+      }
       this.$store.dispatch('logout')
     },
   },

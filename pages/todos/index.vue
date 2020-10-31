@@ -13,7 +13,6 @@
             type="text"
             class="form-control"
             placeholder="Enter new todo"
-            autofocus
           />
         </div>
         <div class="form-group ml-2">
@@ -86,6 +85,7 @@
 <script>
 export default {
   middleware: 'authenticated',
+
   async asyncData(context) {
     const data = await context.$axios.$get(
       process.env.baseApiUrl + '/todos',
@@ -129,6 +129,9 @@ export default {
 
     editTodo(todo) {
       const newContent = prompt('Edit todo', todo.content)
+      if (newContent === null) {
+        return
+      }
       this.$store.dispatch('editTodo', { todo, newContent })
     },
   },

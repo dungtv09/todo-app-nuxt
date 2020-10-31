@@ -1,6 +1,8 @@
 export default function ({ store, redirect }) {
   if (!store.getters.isLogin) {
-    alert('Please login to access this page')
+    if (process.client) {
+      alert('Please login to access this page')
+    }
     return redirect('/login')
   }
 }

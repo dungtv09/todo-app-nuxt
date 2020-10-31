@@ -5,6 +5,7 @@ const store = () => {
     state: {
       todos: [],
       token: null,
+      currentUser: null,
     },
 
     getters: {
@@ -27,6 +28,9 @@ const store = () => {
       isLogin(state) {
         return state.token !== null
       },
+      currentUser(state) {
+        return state.currentUser
+      },
     },
 
     mutations: {
@@ -44,16 +48,23 @@ const store = () => {
         const todoTemp = state.todos.find((item) => item.id === todo.id).status
         state.todos.find((item) => item.id === todo.id).status =
           todoTemp === 'active' ? 'completed' : 'active'
+        state.todos.find((item) => item.id === todo.id).updated_at = Date.now()
       },
       EDIT_TODO(state, payload) {
         state.todos.find((item) => item.id === payload.todo.id).content =
           payload.newContent
+        state.todos.find(
+          (item) => item.id === payload.todo.id
+        ).updated_at = Date.now()
       },
       SET_TOKEN(state, token) {
         state.token = token
       },
       CLEAR_TOKEN(state) {
         state.token = null
+      },
+      SET_CURRENT_USER(state, username) {
+        state.currentUser = username
       },
     },
 
@@ -132,6 +143,7 @@ const store = () => {
             getters.headers
           )
           commit('SET_TOKEN', data.token)
+          commit('SET_CURRENT_USER', data.username)
           this.$router.push('/todos')
         } catch (err) {
           alert(err.response.data.message)
