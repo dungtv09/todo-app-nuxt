@@ -25,10 +25,7 @@ const store = () => {
         }
       },
       isLogin(state) {
-        if (state.token) {
-          return true
-        }
-        return false
+        return state.token !== null
       },
     },
 
