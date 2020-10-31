@@ -86,17 +86,25 @@
 <script>
 export default {
   middleware: 'authenticated',
+  async asyncData(context) {
+    const data = await context.$axios.$get(
+      process.env.baseApiUrl + '/todos',
+      context.store.getters.headers
+    )
+    context.store.commit('SET_TODOS', data)
+    return { todos: data }
+  },
+
   data() {
     return { newTodoContent: null }
   },
 
   computed: {
     activeTodos() {
-      return this.$store.getters.activeTodos
+      return this.todos.filter((todo) => todo.status === 'active')
     },
-
     completedTodos() {
-      return this.$store.getters.completedTodos
+      return this.todos.filter((todo) => todo.status === 'completed')
     },
   },
 

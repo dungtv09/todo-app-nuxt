@@ -11,12 +11,6 @@ const store = () => {
       todos(state) {
         return state.todos
       },
-      activeTodos(state) {
-        return state.todos.filter((todo) => todo.status === 'active')
-      },
-      completedTodos(state) {
-        return state.todos.filter((todo) => todo.status === 'completed')
-      },
       headers(state) {
         return {
           headers: {
@@ -58,16 +52,6 @@ const store = () => {
     },
 
     actions: {
-      async nuxtServerInit({ commit, state, getters }, context) {
-        try {
-          const data = await context.$axios.$get(
-            process.env.baseApiUrl + '/todos',
-            getters.headers
-          )
-          commit('SET_TODOS', data)
-        } catch (err) {}
-      },
-
       async addTodo({ commit, state, getters }, newTodoContent) {
         const data = await this.$axios.$post(
           process.env.baseApiUrl + '/todos',
