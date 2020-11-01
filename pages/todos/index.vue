@@ -84,7 +84,7 @@
 
 <script>
 export default {
-  middleware: ['authenticated'],
+  middleware: 'authenticated',
 
   async asyncData(context) {
     const data = await context.$axios.$get(

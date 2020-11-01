@@ -142,8 +142,15 @@ const store = () => {
             user,
             getters.headers
           )
+
           commit('SET_TOKEN', data.token)
+          this.$cookies.set('token', data.token)
+          localStorage.setItem('token', data.token)
+
           commit('SET_CURRENT_USER', data.username)
+          this.$cookies.set('username', data.username)
+          localStorage.setItem('username', data.username)
+
           this.$router.push('/todos')
         } catch (err) {
           alert(err.response.data.message)
@@ -152,7 +159,36 @@ const store = () => {
 
       logout({ commit }) {
         commit('CLEAR_TOKEN')
+        this.$cookies.remove('token')
+        localStorage.removeItem('token')
+        this.$cookies.remove('username')
+        localStorage.removeItem('username')
         this.$router.push('/')
+      },
+
+      getTokenAndCurrentUser({ commit }, req) {
+        let token = null
+        let username = null
+        if (req) {
+          if (!req.headers.cookie) return false
+
+          const tokenKey = req.headers.cookie
+            .split(';')
+            .find((i) => i.trim().startsWith('token='))
+          const usernameKey = req.headers.cookie
+            .split(';')
+            .find((i) => i.trim().startsWith('username='))
+
+          if (!tokenKey || !usernameKey) return false
+          token = tokenKey.split('=')[1]
+          username = usernameKey.split('=')[1]
+        } else {
+          token = localStorage.getItem('item')
+          username = localStorage.getItem('username')
+          if (!token || !username) return false
+        }
+        commit('SET_TOKEN', token)
+        commit('SET_CURRENT_USER', username)
       },
     },
   })
