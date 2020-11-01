@@ -12,7 +12,7 @@
 export default {
   props: {
     error: {
-      type: String,
+      type: Object,
       default: null,
     },
   },
