@@ -145,11 +145,9 @@ const store = () => {
 
           commit('SET_TOKEN', data.token)
           this.$cookies.set('token', data.token)
-          localStorage.setItem('token', data.token)
 
           commit('SET_CURRENT_USER', data.username)
           this.$cookies.set('username', data.username)
-          localStorage.setItem('username', data.username)
 
           this.$router.push('/todos')
         } catch (err) {
@@ -160,9 +158,7 @@ const store = () => {
       logout({ commit }) {
         commit('CLEAR_TOKEN')
         this.$cookies.remove('token')
-        localStorage.removeItem('token')
         this.$cookies.remove('username')
-        localStorage.removeItem('username')
         this.$router.push('/')
       },
 
@@ -183,8 +179,8 @@ const store = () => {
           token = tokenKey.split('=')[1]
           username = usernameKey.split('=')[1]
         } else {
-          token = localStorage.getItem('item')
-          username = localStorage.getItem('username')
+          token = this.$cookies.get('token')
+          username = this.$cookies.get('username')
           if (!token || !username) return false
         }
         commit('SET_TOKEN', token)
