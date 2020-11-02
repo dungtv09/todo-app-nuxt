@@ -126,8 +126,7 @@ const store = () => {
         try {
           await this.$axios.$post(
             process.env.baseApiUrl + '/auth/register',
-            user,
-            getters.headers
+            user
           )
           this.$router.push('/login')
         } catch (err) {
@@ -139,8 +138,7 @@ const store = () => {
         try {
           const data = await this.$axios.$post(
             process.env.baseApiUrl + '/auth/login',
-            user,
-            getters.headers
+            user
           )
 
           commit('SET_TOKEN', data.token)
