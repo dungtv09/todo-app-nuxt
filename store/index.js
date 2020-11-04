@@ -69,6 +69,23 @@ const store = () => {
     },
 
     actions: {
+      nuxtServerInit({ commit }, { req }) {
+        if (!req.headers.cookie) return false
+        const tokenKey = req.headers.cookie
+          .split(';')
+          .find((i) => i.trim().startsWith('token='))
+        const usernameKey = req.headers.cookie
+          .split(';')
+          .find((i) => i.trim().startsWith('username='))
+
+        if (!tokenKey || !usernameKey) return false
+        const token = tokenKey.split('=')[1]
+        const username = usernameKey.split('=')[1]
+
+        commit('SET_TOKEN', token)
+        commit('SET_CURRENT_USER', username)
+      },
+
       setTodos({ commit }, data) {
         commit('SET_TODOS', data)
       },
@@ -158,31 +175,6 @@ const store = () => {
         this.$cookies.remove('token')
         this.$cookies.remove('username')
         this.$router.push('/')
-      },
-
-      getTokenAndCurrentUser({ commit }, req) {
-        let token = null
-        let username = null
-        if (req) {
-          if (!req.headers.cookie) return false
-
-          const tokenKey = req.headers.cookie
-            .split(';')
-            .find((i) => i.trim().startsWith('token='))
-          const usernameKey = req.headers.cookie
-            .split(';')
-            .find((i) => i.trim().startsWith('username='))
-
-          if (!tokenKey || !usernameKey) return false
-          token = tokenKey.split('=')[1]
-          username = usernameKey.split('=')[1]
-        } else {
-          token = this.$cookies.get('token')
-          username = this.$cookies.get('username')
-          if (!token || !username) return false
-        }
-        commit('SET_TOKEN', token)
-        commit('SET_CURRENT_USER', username)
       },
     },
   })

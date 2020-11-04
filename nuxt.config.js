@@ -61,7 +61,6 @@ export default {
 
   router: {
     linkExactActiveClass: 'active',
-    middleware: 'get-token',
   },
 
   env: {
