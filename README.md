@@ -1,4 +1,4 @@
-# user-manager-nuxtjs
+# todo-app-nuxt
 
 ## Build Setup
 
